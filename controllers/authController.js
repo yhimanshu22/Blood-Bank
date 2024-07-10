@@ -3,9 +3,11 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const registerController = async (req, res) => {
+  const { name, email, password, phone, address, role, organisationName, hospitalName } = req.body;
+
   try {
     // Check if user with the provided email already exists
-    const existingUser = await userModel.findOne({ email: req.body.email });
+    const existingUser = await userModel.findOne({ email });
 
     if (existingUser) {
       return res.status(400).json({
@@ -16,16 +18,18 @@ const registerController = async (req, res) => {
 
     // Generate salt and hash the password
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     // Create a new user object with hashed password
     const newUser = new userModel({
-      name: req.body.name,
-      email: req.body.email,
+      name,
+      email,
       password: hashedPassword,
-      phone: req.body.phone, 
-      address: req.body.address, 
-      role: req.body.role,
+      phone,
+      address,
+      role,
+      organisationName: role === "organisation" ? organisationName : undefined,
+      hospitalName: role === "hospital" ? hospitalName : undefined,
     });
 
     // Save the new user to the database

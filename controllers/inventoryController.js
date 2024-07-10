@@ -17,17 +17,17 @@ const createInventoryController = async (req, res) => {
     }
 
     // Validation: Check inventoryType and user role
-    if (inventoryType === "out" && user.role !== "hospital") {
+    if (inventoryType === "out" && user.role !== "hospital" && user.role !== "organisation") {
       return res.status(403).json({
         success: false,
         message: "Only hospitals can perform outgoing inventory",
       });
     }
 
-    if (inventoryType === "in" && user.role !== "donar") {
+    if (inventoryType === "in" && user.role !== "donar" &&user.role !== "organisation") {
       return res.status(403).json({
         success: false,
-        message: "Only donors can perform incoming inventory",
+        message: "Only donors and organisation can perform incoming inventory",
       });
     }
 
@@ -119,6 +119,7 @@ const getInventoryController = async (req, res) => {
       .populate("donar")
       .populate("hospital")
       .sort({ createdAt: -1 });
+      
     return res.status(200).send({
       success: true,
       messaage: "get all records successfully",
