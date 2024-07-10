@@ -19,6 +19,7 @@ const Form = ({ formType, submitBtn, formTitle }) => {
         onSubmit={(e) => {
           if (formType === "login")
             return handleLogin(e, email, password, role);
+          
           else if (formType === "register")
             return handleRegister(
               e,
@@ -205,7 +206,7 @@ const Form = ({ formType, submitBtn, formTitle }) => {
             </p>
           ) : (
             <p>
-              ALready Usser Please
+              ALready User Please
               <Link to="/login"> Login !</Link>
             </p>
           )}

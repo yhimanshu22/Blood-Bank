@@ -69,22 +69,33 @@ const getOrgListController = async (req, res) => {
 // =======================================
 
 //DELETE DONAR
+
 const deleteDonarController = async (req, res) => {
   try {
-    await userModel.findByIdAndDelete(req.params.id);
+    const deletedUser = await userModel.findByIdAndDelete(req.params.id);
+    
+    if (!deletedUser) {
+      return res.status(404).send({
+        success: false,
+        message: "User not found",
+      });
+    }
+
     return res.status(200).send({
       success: true,
-      message: " Record Deleted successfully",
+      message: "Record deleted successfully",
     });
   } catch (error) {
-    console.log(error);
+    //console.error("Error while deleting:", error);
     return res.status(500).send({
       success: false,
-      message: "Error while deleting ",
-      error,
+      message: "Error while deleting",
+      error: error.message,
     });
   }
 };
+
+module.exports = deleteDonarController;
 
 //EXPORT
 module.exports = {

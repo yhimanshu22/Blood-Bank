@@ -4,98 +4,121 @@ const jwt = require("jsonwebtoken");
 
 const registerController = async (req, res) => {
   try {
-    const exisitingUser = await userModel.findOne({ email: req.body.email });
-    //validation
-    if (exisitingUser) {
-      return res.status(200).send({
+    // Check if user with the provided email already exists
+    const existingUser = await userModel.findOne({ email: req.body.email });
+
+    if (existingUser) {
+      return res.status(400).json({
         success: false,
-        message: "User ALready exists",
+        message: "User already exists",
       });
     }
-    //hash password
+
+    // Generate salt and hash the password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
-    req.body.password = hashedPassword;
-    //rest data
-    const user = new userModel(req.body);
-    await user.save();
-    return res.status(201).send({
+
+    // Create a new user object with hashed password
+    const newUser = new userModel({
+      name: req.body.name,
+      email: req.body.email,
+      password: hashedPassword,
+      phone: req.body.phone, 
+      address: req.body.address, 
+      role: req.body.role,
+    });
+
+    // Save the new user to the database
+    await newUser.save();
+
+    // Return success response
+    return res.status(201).json({
       success: true,
-      message: "User Registerd Successfully",
-      user,
+      message: "User registered successfully",
+      user: newUser,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).send({
+    console.error("Error in registerController:", error);
+    return res.status(500).json({
       success: false,
-      message: "Error In Register API",
-      error,
+      message: "Error in Register API",
+      error: error.message,
     });
   }
 };
 
-//login call back
+
 const loginController = async (req, res) => {
   try {
+    // Find user by email in the database
     const user = await userModel.findOne({ email: req.body.email });
+
+    // If user is not found, return 404 with error message
     if (!user) {
-      return res.status(404).send({
+      return res.status(404).json({
         success: false,
-        message: "Invalid Credentials",
+        message: "Invalid credentials",
       });
     }
-    //check role
-    if (user.role !== req.body.role) {
-      return res.status(500).send({
-        success: false,
-        message: "role dosent match",
-      });
-    }
-    //compare password
-    const comparePassword = await bcrypt.compare(
-      req.body.password,
-      user.password
-    );
+
+    // Compare the provided password with the hashed password in the database
+    const comparePassword = await bcrypt.compare(req.body.password, user.password);
+
+    // If passwords do not match, return 401 with error message
     if (!comparePassword) {
-      return res.status(500).send({
+      return res.status(401).json({
         success: false,
-        message: "Invalid Credentials",
+        message: "Password is incorrect",
       });
     }
+
+    // Generate JWT token for authentication
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
-    return res.status(200).send({
+
+    // Return success response with token and user details
+    return res.status(200).json({
       success: true,
-      message: "Login Successfully",
+      message: "Login successfull",
       token,
       user,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).send({
+    // Handle errors
+    console.error("Error in loginController:", error);
+    return res.status(500).json({
       success: false,
-      message: "Error In Login API",
-      error,
+      message: "Error in Login API",
+      error: error.message,
     });
   }
 };
 
-//GET CURRENT USER
+
 const currentUserController = async (req, res) => {
   try {
-    const user = await userModel.findOne({ _id: req.body.userId });
-    return res.status(200).send({
+    const user = await userModel.findById(req.body.userId);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    return res.status(200).json({
       success: true,
-      message: "User Fetched Successfully",
+      message: "User fetched successfully",
       user,
     });
   } catch (error) {
-    console.log(error);
-    return res.status(500).send({
+    console.error("Error in currentUserController:", error);
+    
+    res.status(500).json({
       success: false,
-      message: "unable to get current user",
-      error,
+      message: "Unable to get current user",
+      error: error.message,
     });
   }
 };

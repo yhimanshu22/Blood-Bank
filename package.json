@@ -1,7 +1,7 @@
 {
-  "name": "mern-blood-bank-app",
+  "name": "blood-bank-app",
   "version": "1.0.0",
-  "description": "mern blood bank app",
+  "description": "blood bank app",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
     "colors": "^1.4.0",
     "concurrently": "^8.0.1",
     "cors": "^2.8.5",

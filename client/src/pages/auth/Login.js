@@ -5,9 +5,11 @@ import Spinner from "./../../components/shared/Spinner";
 
 const Login = () => {
   const { loading, error } = useSelector((state) => state.auth);
+
   return (
     <>
-      {error && <span>{alert(error)}</span>}
+      {error && <span>{error}</span>}
+
       {loading ? (
         <Spinner />
       ) : (

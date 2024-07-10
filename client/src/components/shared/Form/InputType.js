@@ -14,6 +14,7 @@ const InputType = ({
         <label htmlFor={labelFor} className="form-label">
           {labelText}
         </label>
+        
         <input
           type={inputType}
           className="form-control"

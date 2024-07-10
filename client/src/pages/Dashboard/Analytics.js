@@ -18,8 +18,10 @@ const Analytics = () => {
   ];
   //GET BLOOD GROUP DATA
   const getBloodGroupData = async () => {
+    
     try {
       const { data } = await API.get("/analytics/bloodGroups-data");
+
       if (data?.success) {
         setData(data?.bloodGroupData);
         // console.log(data);
@@ -50,6 +52,7 @@ const Analytics = () => {
   useEffect(() => {
     getBloodRecords();
   }, []);
+  
   return (
     <>
       <Header />
