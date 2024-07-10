@@ -9,7 +9,9 @@ const ProtectedRoute = ({ children }) => {
   //get user current
   const getUser = async () => {
     try {
+      
       const { data } = await API.get("/auth/current-user");
+      
       if (data?.success) {
         dispatch(getCurrentUser(data));
       }
