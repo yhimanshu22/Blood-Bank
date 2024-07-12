@@ -8,21 +8,18 @@ const OrganisationPage = () => {
   // get current user
   const { user } = useSelector((state) => state.auth);
   const [data, setData] = useState([]);
-  //find org records
+
+  // Find org records based on user role
   const getOrg = async () => {
     try {
       if (user?.role === "donar") {
         const { data } = await API.get("/inventory/get-orgnaisation");
-        //   console.log(data);
         if (data?.success) {
           setData(data?.organisations);
         }
       }
       if (user?.role === "hospital") {
-        const { data } = await API.get(
-          "/inventory/get-orgnaisation-for-hospital"
-        );
-        //   console.log(data);
+        const { data } = await API.get("/inventory/get-orgnaisation-for-hospital");
         if (data?.success) {
           setData(data?.organisations);
         }
@@ -38,28 +35,38 @@ const OrganisationPage = () => {
 
   return (
     <Layout>
-      <table className="table ">
-        <thead>
-          <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Phone</th>
-            <th scope="col">Address</th>
-            <th scope="col">Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data?.map((record) => (
-            <tr key={record._id}>
-              <td>{record.organisationName}</td>
-              <td>{record.email}</td>
-              <td>{record.phone}</td>
-              <td>{record.address}</td>
-              <td>{moment(record.createdAt).format("DD/MM/YYYY hh:mm A")}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="container mx-auto px-4 py-6">
+        <h1 className="text-2xl font-bold text-white mb-4">Organisation List</h1>
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-gray-800 text-white rounded-lg shadow-md">
+            <thead className="bg-gray-700 dark:bg-gray-800">
+              <tr>
+                <th className="px-4 py-2 border-b border-gray-600 text-left">Name</th>
+                <th className="px-4 py-2 border-b border-gray-600 text-left">Email</th>
+                <th className="px-4 py-2 border-b border-gray-600 text-left">Phone</th>
+                <th className="px-4 py-2 border-b border-gray-600 text-left">Address</th>
+                <th className="px-4 py-2 border-b border-gray-600 text-left">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data?.map((record, index) => (
+                <tr
+                  key={record._id}
+                  className={index % 2 === 0 ? "bg-gray-800" : "bg-gray-700"}
+                >
+                  <td className="px-4 py-2">{record.organisationName}</td>
+                  <td className="px-4 py-2">{record.email}</td>
+                  <td className="px-4 py-2">{record.phone}</td>
+                  <td className="px-4 py-2">{record.address}</td>
+                  <td className="px-4 py-2">
+                    {moment(record.createdAt).format("DD/MM/YYYY hh:mm A")}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </Layout>
   );
 };

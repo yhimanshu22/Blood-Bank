@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Header from "../../components/shared/Layout/Header";
-import API from "./../../services/API";
+import API from "../../services/API";
 import moment from "moment";
 
 const Analytics = () => {
@@ -16,94 +16,95 @@ const Analytics = () => {
     "#FF0060",
     "#22A699",
   ];
-  //GET BLOOD GROUP DATA
+
+  // Fetch blood group data
   const getBloodGroupData = async () => {
-    
     try {
       const { data } = await API.get("/analytics/bloodGroups-data");
-
       if (data?.success) {
         setData(data?.bloodGroupData);
-        // console.log(data);
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching blood group data:", error);
     }
   };
 
-  //lifrecycle method
   useEffect(() => {
     getBloodGroupData();
   }, []);
 
-  //get function
+  // Fetch recent blood inventory
   const getBloodRecords = async () => {
     try {
       const { data } = await API.get("/inventory/get-recent-inventory");
       if (data?.success) {
         setInventoryData(data?.inventory);
-        console.log(data);
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching blood inventory:", error);
     }
   };
 
   useEffect(() => {
     getBloodRecords();
   }, []);
-  
+
   return (
     <>
       <Header />
-      <div className="d-flex flex-row flex-wrap">
-        {data?.map((record, i) => (
-          <div
-            className="card m-2 p-1"
-            key={i}
-            style={{ width: "18rem", backgroundColor: `${colors[i]}` }}
-          >
-            <div className="card-body">
-              <h1 className="card-title bg-light text-dark text-center mb-3">
-                {record.bloodGroup}
-              </h1>
-              <p className="card-text">
-                Total In : <b>{record.totalIn}</b> (ML)
-              </p>
-              <p className="card-text">
-                Total Out : <b>{record.totalOut}</b> (ML)
-              </p>
-            </div>
-            <div className="card-footer text-light bg-dark text-center">
-              Total Available : <b>{record.availabeBlood}</b> (ML)
-            </div>
+      <div className="flex flex-wrap justify-center bg-gray-800 dark:bg-gray-900 gap-4 p-4">
+      {data?.map((record, i) => (
+        <div
+          className="bg-opacity-80 p-4 rounded-lg shadow-lg"
+          key={i}
+          style={{ width: "18rem", backgroundColor: `${colors[i]}` }}
+        >
+          <div className="text-center mb-4">
+            <h1 className="text-xl font-semibold text-white mb-2">
+              {record.bloodGroup}
+            </h1>
+            <p className="text-white">
+              Total In: <b>{record.totalIn}</b> (ML)
+            </p>
+            <p className="text-white">
+              Total Out: <b>{record.totalOut}</b> (ML)
+            </p>
           </div>
-        ))}
-      </div>
-      <div className="container my-3">
-        <h1 className="my-3">Recent Blood Transactions</h1>
-        <table className="table ">
-          <thead>
-            <tr>
-              <th scope="col">Blood Group</th>
-              <th scope="col">Inventory Type</th>
-              <th scope="col">Quantity</th>
-              <th scope="col">Donar Email</th>
-              <th scope="col">TIme & Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {inventoryData?.map((record) => (
-              <tr key={record._id}>
-                <td>{record.bloodGroup}</td>
-                <td>{record.inventoryType}</td>
-                <td>{record.quantity} (ML)</td>
-                <td>{record.email}</td>
-                <td>{moment(record.createdAt).format("DD/MM/YYYY hh:mm A")}</td>
+          <div className="text-center text-white bg-gray-800 p-2 rounded-b-lg">
+            Total Available: <b>{record.availabeBlood}</b> (ML)
+          </div>
+        </div>
+      ))}
+    </div>
+
+      <div className="container bg-gray-800 dark:bg-gray-900">
+        <h1 className="text-2xl text-white dark:text-white font-bold mb-4">Recent Blood Transactions</h1>
+        <div className="overflow-x-auto ">
+          <table className="min-w-full bg-gray-800  text-gray-200 rounded-lg shadow-md">
+            <thead className="bg-gray-700 text-center">
+              <tr>
+                <th className="px-4 py-2 border-b">Blood Group</th>
+                <th className="px-4 py-2 border-b">Inventory Type</th>
+                <th className="px-4 py-2 border-b">Quantity</th>
+                <th className="px-4 py-2 border-b">Donar Email</th>
+                <th className="px-4 py-2 border-b">Time & Date</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {inventoryData?.map((record) => (
+                <tr key={record._id} className="border-b border-gray-200">
+                  <td className="px-4 py-2">{record.bloodGroup}</td>
+                  <td className="px-4 py-2">{record.inventoryType}</td>
+                  <td className="px-4 py-2">{record.quantity} (ML)</td>
+                  <td className="px-4 py-2">{record.email}</td>
+                  <td className="px-4 py-2">
+                    {moment(record.createdAt).format("DD/MM/YYYY hh:mm A")}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </>
   );
