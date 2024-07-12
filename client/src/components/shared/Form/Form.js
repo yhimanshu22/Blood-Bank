@@ -13,14 +13,15 @@ const Form = ({ formType, submitBtn, formTitle }) => {
   const [website, setWebsite] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
+
   return (
-    <div>
+    <div className="max-w-md mx-auto p-6  bg-white dark:bg-gray-900 rounded-lg shadow-md">
       <form
         onSubmit={(e) => {
-          if (formType === "login")
+          e.preventDefault(); // Prevent default form submission
+          if (formType === "login") {
             return handleLogin(e, email, password, role);
-          
-          else if (formType === "register")
+          } else if (formType === "register") {
             return handleRegister(
               e,
               name,
@@ -33,187 +34,180 @@ const Form = ({ formType, submitBtn, formTitle }) => {
               hospitalName,
               website
             );
+          }
         }}
       >
-        <h1 className="text-center">{formTitle}</h1>
-        <hr />
-        <div className="d-flex mb-3">
-          <div className="form-check">
-            <input
-              type="radio"
-              className="form-check-input"
-              name="role"
-              id="donarRadio"
-              value={"donar"}
-              onChange={(e) => setRole(e.target.value)}
-              defaultChecked
-            />
-            <label htmlFor="adminRadio" className="form-check-label">
-              Donar
-            </label>
-          </div>
-          <div className="form-check ms-2">
-            <input
-              type="radio"
-              className="form-check-input"
-              name="role"
-              id="adminRadio"
-              value={"admin"}
-              onChange={(e) => setRole(e.target.value)}
-            />
-            <label htmlFor="adminRadio" className="form-check-label">
-              Admin
-            </label>
-          </div>
-          <div className="form-check ms-2">
-            <input
-              type="radio"
-              className="form-check-input"
-              name="role"
-              id="hospitalRadio"
-              value={"hospital"}
-              onChange={(e) => setRole(e.target.value)}
-            />
-            <label htmlFor="hospitalRadio" className="form-check-label">
-              Hospital
-            </label>
-          </div>
-          <div className="form-check ms-2">
-            <input
-              type="radio"
-              className="form-check-input"
-              name="role"
-              id="organisationRadio"
-              value={"organisation"}
-              onChange={(e) => setRole(e.target.value)}
-            />
-            <label htmlFor="organisationRadio" className="form-check-label">
-              Organisation
-            </label>
-          </div>
+        <h1 className="text-2xl font-bold text-black text-center mb-4">{formTitle}</h1>
+        {/* Radio Buttons */}
+        <div className="flex flex-wrap items-center space-x-4">
+          {['donar', 'admin', 'hospital', 'organisation'].map((roleValue) => (
+            <div key={roleValue} className="flex items-center space-x-2">
+              <input
+                type="radio"
+                className="form-radio text-blue-500"
+                name="role"
+                id={`${roleValue}Radio`}
+                value={roleValue}
+                onChange={(e) => setRole(e.target.value)}
+                checked={role === roleValue}
+              />
+              <label htmlFor={`${roleValue}Radio`} className="text-gray-700 dark:text-gray-300">
+                {roleValue.charAt(0).toUpperCase() + roleValue.slice(1)}
+              </label>
+            </div>
+          ))}
         </div>
-        {/* switch statement */}
+
+        {/* Conditional Fields */}
         {(() => {
-          //eslint-disable-next-line
-          switch (true) {
-            case formType === "login": {
+          switch (formType) {
+            case "login":
               return (
                 <>
                   <InputType
-                    labelText={"email"}
-                    labelFor={"forEmail"}
-                    inputType={"email"}
-                    name={"email"}
+                    labelText="Email"
+                    labelFor="forEmail"
+                    inputType="email"
+                    name="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
                   <InputType
-                    labelText={"Password"}
-                    labelFor={"forPassword"}
-                    inputType={"password"}
-                    name={"password"}
+                    labelText="Password"
+                    labelFor="forPassword"
+                    inputType="password"
+                    name="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </>
               );
-            }
-            case formType === "register": {
+            case "register":
               return (
                 <>
                   {(role === "admin" || role === "donar") && (
                     <InputType
-                      labelText={"Name"}
-                      labelFor={"forName"}
-                      inputType={"text"}
-                      name={"name"}
+                      labelText="Name"
+                      labelFor="forName"
+                      inputType="text"
+                      name="name"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                     />
                   )}
                   {role === "organisation" && (
+                    <>
                     <InputType
-                      labelText={"Organisation Name"}
-                      labelFor={"fororganisationName"}
-                      inputType={"text"}
-                      name={"organisationName"}
+                      labelText="Organisation Name"
+                      labelFor="forOrganisationName"
+                      inputType="text"
+                      name="organisationName"
                       value={organisationName}
                       onChange={(e) => setOrganisationName(e.target.value)}
                     />
+                     <InputType
+                    labelText="Website"
+                    labelFor="forWebsite"
+                    inputType="text"
+                    name="website"
+                    value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+                  />
+                    </>
                   )}
                   {role === "hospital" && (
+                    <>
                     <InputType
-                      labelText={"Hospital Name"}
-                      labelFor={"forHospitalName"}
-                      inputType={"text"}
-                      name={"hospitalName"}
+                      labelText="Hospital Name"
+                      labelFor="forHospitalName"
+                      inputType="text"
+                      name="hospitalName"
                       value={hospitalName}
                       onChange={(e) => setHospitalName(e.target.value)}
                     />
-                  )}
 
+                    <InputType
+                    labelText="Website"
+                    labelFor="forWebsite"
+                    inputType="text"
+                    name="website"
+                    value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+                    />
+                  </>
+                  )}
                   <InputType
-                    labelText={"email"}
-                    labelFor={"forEmail"}
-                    inputType={"email"}
-                    name={"email"}
+                    labelText="Email"
+                    labelFor="forEmail"
+                    inputType="email"
+                    name="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
                   <InputType
-                    labelText={"Password"}
-                    labelFor={"forPassword"}
-                    inputType={"password"}
-                    name={"password"}
+                    labelText="Password"
+                    labelFor="forPassword"
+                    inputType="password"
+                    name="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
+                 
                   <InputType
-                    labelText={"website"}
-                    labelFor={"forWebsite"}
-                    inputType={"text"}
-                    name={"website"}
-                    value={website}
-                    onChange={(e) => setWebsite(e.target.value)}
-                  />
-                  <InputType
-                    labelText={"Address"}
-                    labelFor={"forAddress"}
-                    inputType={"text"}
-                    name={"address"}
+                    labelText="Address"
+                    labelFor="forAddress"
+                    inputType="text"
+                    name="address"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                   />
                   <InputType
-                    labelText={"Phone"}
-                    labelFor={"forPhone"}
-                    inputType={"text"}
-                    name={"phone"}
+                    labelText="Phone"
+                    labelFor="forPhone"
+                    inputType="text"
+                    name="phone"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                   />
                 </>
               );
-            }
+            default:
+              return null;
           }
         })()}
 
-        <div className="d-flex flex-row justify-content-between">
-          {formType === "login" ? (
-            <p>
-              Not registerd yet ? Register
-              <Link to="/register"> Here !</Link>
-            </p>
-          ) : (
-            <p>
-              ALready User Please
-              <Link to="/login"> Login !</Link>
-            </p>
-          )}
-          <button className="btn btn-primary" type="submit">
-            {submitBtn}
-          </button>
-        </div>
+<div className="flex md:flex-row md:justify-between items-center">
+  <div className="flex items-center space-x-2 mb-4 md:mb-0">
+    {formType === "login" ? (
+      <div className="mt-4 ml-3">
+      <p className="text-gray-700 dark:text-gray-600 text-center md:text-left">
+        Not registered yet?{" "}
+        <Link to="/register" className="text-blue-500 hover:underline font-medium">
+          Register here!
+        </Link>
+      </p>
+      </div>
+    ) : (
+      <div className="flex justify-center mt-4 ml-3">
+      <p className="text-gray-400 dark:text-gray-600 text-center md:text-left">
+        Already a user?{" "}
+        <Link to="/login" className="text-blue-500 hover:underline ml-1 font-medium">
+          Login here!
+        </Link>
+      </p>
+      </div>
+    )}
+  </div>
+
+  <button
+    type="submit"
+    className="bg-blue-500 hover:bg-blue-600 text-white font-bold 
+    py-2 px-6 rounded-full mt-0.5 focus:outline-none transition-colors duration-300"
+  >
+    {submitBtn}
+  </button>
+</div>
+
       </form>
     </div>
   );
