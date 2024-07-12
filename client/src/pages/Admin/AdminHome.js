@@ -8,7 +8,7 @@ const AdminHome = () => {
   return (
     <Layout>
       <div className="container mx-auto p-6 bg-white dark:bg-gray-900 rounded-lg shadow-md">
-        <div className="flex flex-col mt-4 space-y-4">
+        <div className="flex flex-col dark:text-white mt-4 space-y-4">
           <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100">
             Welcome Admin, <span className="text-green-500">{user?.name}</span>
           </h1>

@@ -7,7 +7,7 @@ export const Quote = () => {
         <div className="bg-gray-800 text-white dark:bg-gray-800 dark:text-white flex justify-center flex-col">
             
                 <div className="max-w-lg">
-                    <div  style={{ fontFamily: 'Anton' }}className="text-6xl font-bold">
+                    <div  style={{ fontFamily: 'Anton' }} className="text-6xl font-bold">
                         {quoteText}
                     </div>
                     <div style={{ fontFamily: 'Anton' }} className="max-w-md text-xl font-semibold text-left mt-4">

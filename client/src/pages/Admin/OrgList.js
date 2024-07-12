@@ -2,73 +2,106 @@ import React, { useEffect, useState } from "react";
 import Layout from "../../components/shared/Layout/Layout";
 import moment from "moment";
 import API from "../../services/API";
+import { toast } from "react-toastify";
 
 const OrgList = () => {
   const [data, setData] = useState([]);
-  //find donar records
-  const getDonars = async () => {
+
+  // Fetch organization records
+  const getOrgs = async () => {
     try {
       const { data } = await API.get("/admin/org-list");
-      console.log(data);
       if (data?.success) {
         setData(data?.orgData);
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching organizations:", error);
     }
   };
 
   useEffect(() => {
-    getDonars();
+    getOrgs();
   }, []);
 
-  //DELETE FUNCTION
-  const handelDelete = async (id) => {
+  // Handle delete with confirmation
+  const handleDelete = async (id) => {
     try {
-      let answer = window.prompt(
-        "Are You SUre Want To Delete This Organisation",
-        "Sure"
+      toast.info(
+        <div>
+          <p>Are you sure you want to delete this organization?</p>
+          <div className="flex justify-between mt-3">
+            <button
+              className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded focus:outline-none"
+              onClick={async () => {
+                toast.dismiss(); // Dismiss the toast
+                try {
+                  const { data } = await API.delete(`/admin/delete-org/${id}`);
+                  toast.success(data.message);
+                  setData((prevData) => prevData.filter((org) => org._id !== id)); // Update state without reloading the page
+                } catch (error) {
+                  toast.error("Failed to delete organization");
+                  console.error("Error:", error);
+                }
+              }}
+            >
+              Yes
+            </button>
+            <button
+              className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-3 rounded focus:outline-none"
+              onClick={() => toast.dismiss()}
+            >
+              No
+            </button>
+          </div>
+        </div>,
+        {
+          position: "top-center",
+          autoClose: false, // Keep toast open until user interacts
+          hideProgressBar: true,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+        }
       );
-      if (!answer) return;
-      const { data } = await API.delete(`/admin/delete-donar/${id}`);
-      alert(data?.message);
-      window.location.reload();
     } catch (error) {
-      console.log(error);
+      console.error("Error showing delete confirmation:", error);
+      toast.error("Failed to show delete confirmation");
     }
   };
 
   return (
     <Layout>
-      <table className="table ">
-        <thead>
-          <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Phone</th>
-            <th scope="col">Date</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data?.map((record) => (
-            <tr key={record._id}>
-              <td>{record.organisationName}</td>
-              <td>{record.email}</td>
-              <td>{record.phone}</td>
-              <td>{moment(record.createdAt).format("DD/MM/YYYY hh:mm A")}</td>
-              <td>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handelDelete(record._id)}
-                >
-                  Delete
-                </button>
-              </td>
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-gray-800 text-gray-200 shadow-md rounded-lg">
+          <thead className="bg-gray-700 dark:bg-gray-700 text-gray-300 dark:text-gray-300">
+            <tr>
+              <th className="px-4 py-2 border-b">Name</th>
+              <th className="px-4 py-2 border-b">Email</th>
+              <th className="px-4 py-2 border-b">Phone</th>
+              <th className="px-4 py-2 border-b">Date</th>
+              <th className="px-4 py-2 border-b">Action</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="bg-gray-800">
+            {data?.map((record) => (
+              <tr key={record._id} className="border-b border-gray-700">
+                <td className="px-4 py-2">{record.organisationName}</td>
+                <td className="px-4 py-2">{record.email}</td>
+                <td className="px-4 py-2">{record.phone}</td>
+                <td className="px-4 py-2">{moment(record.createdAt).format("DD/MM/YYYY hh:mm A")}</td>
+                <td className="px-4 py-2 text-center">
+                  <button
+                    className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded focus:outline-none"
+                    onClick={() => handleDelete(record._id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </Layout>
   );
 };
