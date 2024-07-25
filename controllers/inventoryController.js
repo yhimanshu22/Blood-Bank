@@ -17,7 +17,7 @@ const createInventoryController = async (req, res) => {
     }
 
     // Validation: Check inventoryType and user role
-    if (inventoryType === "out" && user.role !== "hospital" && user.role !== "organisation") {
+    if (inventoryType === "out" && user.role !== "hospital") {
       return res.status(403).json({
         success: false,
         message: "Only hospitals can perform outgoing inventory",
