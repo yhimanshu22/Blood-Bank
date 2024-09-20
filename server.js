@@ -17,7 +17,11 @@ const app = express();
 
 //middlewares
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000/*', // Update as necessary
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+}));
+
 app.use(morgan("dev"));
 
 //app.use(bodyParser.json({ limit: '50mb' }));
