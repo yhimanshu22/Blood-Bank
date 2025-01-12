@@ -3,10 +3,11 @@ import axios from "axios";
 let baseURL;
 
 if (process.env.NODE_ENV === "development") {
-  baseURL = process.env.REACT_APP_BASEURL;
+  baseURL = process.env.REACT_APP_BASEURL ;
 } else {
-  baseURL = process.env.REACT_APP_PROD_BASEURL;
+  baseURL = process.env.REACT_APP_PROD_BASEURL ;
 }
+
 
 const API = axios.create({ baseURL });
 

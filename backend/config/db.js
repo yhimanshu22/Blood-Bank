@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
 const colors = require("colors");
 
+const MONGO_URL = process.env.MONGO_URL || 'mongodb://mongo:27017/blood_bank_db'
+
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URL);
+    await mongoose.connect(MONGO_URL);
     console.log(
       `Connected To Mongodb Database ${mongoose.connection.host}`.bgMagenta
         .white

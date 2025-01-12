@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  backend:
+    build: ./backend
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/blood_bank_db
+      - JWT_SECRET=123456
+      - PORT=8080
+    networks:
+      - mern-network
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+
+  frontend:
+    build: ./frontend
+    environment:
+      - REACT_APP_BASEURL=http://localhost:8080/api/v1
+    networks:
+      - mern-network
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  mongo:
+    image: mongo:latest
+    networks:
+      - mern-network
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+networks:
+  mern-network:
+    driver: bridge
+
+volumes:
+  mongo_data:
