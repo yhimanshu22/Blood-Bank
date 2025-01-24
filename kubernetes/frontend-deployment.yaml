@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: yhimanshu075/blood-bank-frontend
+          ports:
+            - containerPort: 3000    # Set frontend to run on port 3000
+          env:
+            - name: REACT_APP_BASEURL
+              value: "http://localhost:32163/api/v1" # Set environment variable
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  selector:
+    app: frontend
+  ports:
+    - protocol: TCP
+      port: 80        # Expose frontend on port 80 externally
+      targetPort: 3000 # Map to the frontend's port 3000
+  type: NodePort      # Changed to NodePort for local access
