@@ -13,7 +13,7 @@ const Header = () => {
   const handleLogout = () => {
     localStorage.clear();
     toast.success("Logged out successfully");
-    navigate("/login");
+    navigate("/landing-page");
   };
 
   return (
@@ -21,7 +21,7 @@ const Header = () => {
       <div className="container mx-auto px-4 py-2 flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <BiDonateBlood className="text-red-600 text-3xl" />
-          <span  style={{ fontFamily: 'Anton' }}  className="text-4xl font-semibold text-white dark:text-white">
+          <span style={{ fontFamily: 'Anton' }} className="text-4xl font-semibold text-white dark:text-white">
             Blood Bank App
           </span>
         </div>
@@ -42,27 +42,27 @@ const Header = () => {
             location.pathname === "/admin" ||
             location.pathname === "/donar" ||
             location.pathname === "/hospital") && (
-            <li>
-              <Link
-                to="/analytics"
-                className="text-blue-500 "
-              >
-                Analytics
-              </Link>
-            </li>
-          )}
+              <li>
+                <Link
+                  to="/analytics"
+                  className="text-blue-500 "
+                >
+                  Analytics
+                </Link>
+              </li>
+            )}
           {!(location.pathname === "/" ||
             location.pathname === "/donar" ||
             location.pathname === "/hospital") && (
-            <li>
-              <Link
-                to="/"
-                className="text-blue-500"
-              >
-                Home
-              </Link>
-            </li>
-          )}
+              <li>
+                <Link
+                  to="/"
+                  className="text-blue-500"
+                >
+                  Home
+                </Link>
+              </li>
+            )}
           <li>
             <button
               onClick={handleLogout}
