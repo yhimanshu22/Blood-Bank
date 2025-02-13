@@ -3,8 +3,8 @@ import { Navigate } from "react-router-dom";
 
 const PublicRoute = ({ children }) => {
 
-  if (!localStorage.getItem("token")) {
-    return <Navigate to="/landing-page" />;
+  if (localStorage.getItem("token")) {
+    return <Navigate to="/" />;
   }
 
 
