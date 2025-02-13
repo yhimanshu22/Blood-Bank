@@ -9,15 +9,14 @@ const ProtectedRoute = ({ children }) => {
   //get user current
   const getUser = async () => {
     try {
-      
       const { data } = await API.get("/auth/current-user");
-      
       if (data?.success) {
         dispatch(getCurrentUser(data));
       }
     } catch (error) {
+      console.log("Authentication Failed:", error);
       localStorage.clear();
-      console.log(error);
+      window.location.href = "/landing-page";
     }
   };
 
@@ -28,7 +27,7 @@ const ProtectedRoute = ({ children }) => {
   if (localStorage.getItem("token")) {
     return children;
   } else {
-    return <Navigate to="/login" />;
+    return <Navigate to="/landing-page" />;
   }
 };
 
