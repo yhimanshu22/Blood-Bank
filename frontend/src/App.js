@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
@@ -23,36 +23,6 @@ function App() {
     <>
       <ToastContainer />
       <Routes>
-        {/* ✅ Redirect "/" to "/landing-page" */}
-        <Route path="/" element={<Navigate to="/landing-page" />} />
-
-        {/* ✅ Public Routes (No authentication needed) */}
-        <Route
-          path="/landing-page"
-          element={
-            <PublicRoute>
-              <LandingPage />
-            </PublicRoute>
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <PublicRoute>
-              <Login />
-            </PublicRoute>
-          }
-        />
-        <Route
-          path="/register"
-          element={
-            <PublicRoute>
-              <Register />
-            </PublicRoute>
-          }
-        />
-
-        {/* ✅ Protected Routes (Only logged-in users can access) */}
         <Route
           path="/admin"
           element={
@@ -85,6 +55,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/hospital"
           element={
@@ -118,7 +89,7 @@ function App() {
           }
         />
         <Route
-          path="/organisation"
+          path="/orgnaisation"
           element={
             <ProtectedRoute>
               <OrganisationPage />
@@ -134,11 +105,35 @@ function App() {
           }
         />
         <Route
-          path="/home"
+          path="/"
           element={
             <ProtectedRoute>
               <HomePage />
             </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/landing-page"
+          element={
+            <PublicRoute>
+              <LandingPage />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <PublicRoute>
+              <Register />
+            </PublicRoute>
           }
         />
       </Routes>
