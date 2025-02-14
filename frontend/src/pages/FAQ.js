@@ -22,7 +22,7 @@ const FAQ = () => {
 
     return (
         <div className="container mx-auto p-6 bg-gray-800 text-white">
-            <h1 className="text-3xl font-bold text-center mb-6 text-red-500">Frequently Asked Questions</h1>
+            <h1 className="text-3xl font-bold text-center mb-6 text-white-500">Frequently Asked Questions</h1>
             <div className="space-y-4">
                 {faqs.map((faq, index) => (
                     <div key={index} className="p-4 bg-gray-700 rounded-lg shadow-md">
