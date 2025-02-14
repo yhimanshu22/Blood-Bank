@@ -103,9 +103,9 @@ export default function LandingPage() {
                 </a>
             </div>
 
-            <div>
-                <Footer />
-            </div>
+
+            <Footer />
+
         </div>
     );
 }
