@@ -17,6 +17,7 @@ import HospitalList from "./pages/Admin/HospitalList";
 import OrgList from "./pages/Admin/OrgList";
 import AdminHome from "./pages/Admin/AdminHome";
 import LandingPage from "./pages/auth/LandingPage";
+import Contact from "./pages/Contact";
 
 function App() {
   return (
@@ -133,6 +134,14 @@ function App() {
           element={
             <PublicRoute>
               <Register />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/contact"
+          element={
+            <PublicRoute>
+              <Contact />
             </PublicRoute>
           }
         />
