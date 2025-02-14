@@ -18,21 +18,22 @@ export default function LandingPage() {
                 Be a hero today by donating blood.
             </p>
 
-            <div className="flex">
+            <div className="flex gap-x-4 mt-5">
                 <a
-                    className="mt-5 flex items-center gap-2 rounded-md bg-blue-600 px-6 py-3 text-lg font-medium text-white shadow-md transition hover:bg-red-700"
+                    className="flex items-center gap-2 rounded-md bg-blue-600 px-6 py-3 text-lg font-medium text-white shadow-md transition hover:bg-red-700"
                     href="/register"
                 >
                     Looking For Blood <ArrowRight className="h-5 w-5" />
                 </a>
 
                 <a
-                    className="mt-5 flex items-center gap-2 rounded-md bg-red-600 px-6 py-3 text-lg font-medium text-white shadow-md transition hover:bg-red-700"
+                    className="flex items-center gap-2 rounded-md bg-red-600 px-6 py-3 text-lg font-medium text-white shadow-md transition hover:bg-red-700"
                     href="/register"
                 >
                     Become a Donor <ArrowRight className="h-5 w-5" />
                 </a>
             </div>
+
 
             {/* Hero Section with Image */}
             <div className="relative mt-12 w-full flex justify-center">
