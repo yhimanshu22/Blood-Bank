@@ -18,6 +18,7 @@ import OrgList from "./pages/Admin/OrgList";
 import AdminHome from "./pages/Admin/AdminHome";
 import LandingPage from "./pages/auth/LandingPage";
 import Contact from "./pages/Contact";
+import FAQ from "./pages/FAQ";
 
 function App() {
   return (
@@ -142,6 +143,14 @@ function App() {
           element={
             <PublicRoute>
               <Contact />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/faqs"
+          element={
+            <PublicRoute>
+              <FAQ />
             </PublicRoute>
           }
         />

@@ -1,6 +1,6 @@
 import React from "react";
 import { ArrowRight } from "lucide-react";
-import Footer from "../../components/Footer";
+
 
 export default function LandingPage() {
     return (
@@ -104,7 +104,7 @@ export default function LandingPage() {
             </div>
 
 
-            <Footer />
+
 
         </div>
     );
