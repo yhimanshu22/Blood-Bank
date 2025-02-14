@@ -1,5 +1,6 @@
 import React from "react";
 import { ArrowRight } from "lucide-react";
+import Footer from "../../components/Footer";
 
 export default function LandingPage() {
     return (
@@ -90,7 +91,7 @@ export default function LandingPage() {
                 </div>
             </div>
 
-            {/* Emergency Contact Section */}
+
             <div className="bg-gray-900  py-12 w-full text-center">
                 <h3 className="text-3xl font-semibold text-white">Need Blood Urgently? Contact Us Now!</h3>
                 <p className="mt-2 text-gray-200">📞 Call us at (123) 456-7890 for immediate blood supply.</p>
@@ -100,6 +101,10 @@ export default function LandingPage() {
                 >
                     Emergency Help
                 </a>
+            </div>
+
+            <div>
+                <Footer />
             </div>
         </div>
     );
