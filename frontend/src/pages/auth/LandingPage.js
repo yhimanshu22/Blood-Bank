@@ -18,19 +18,21 @@ export default function LandingPage() {
                 Be a hero today by donating blood.
             </p>
 
-            <a
-                className="mt-5 flex items-center gap-2 rounded-md bg-blue-600 px-6 py-3 text-lg font-medium text-white shadow-md transition hover:bg-red-700"
-                href="/register"
-            >
-                Looking For Blood <ArrowRight className="h-5 w-5" />
-            </a>
+            <div className="flex">
+                <a
+                    className="mt-5 flex items-center gap-2 rounded-md bg-blue-600 px-6 py-3 text-lg font-medium text-white shadow-md transition hover:bg-red-700"
+                    href="/register"
+                >
+                    Looking For Blood <ArrowRight className="h-5 w-5" />
+                </a>
 
-            <a
-                className="mt-5 flex items-center gap-2 rounded-md bg-red-600 px-6 py-3 text-lg font-medium text-white shadow-md transition hover:bg-red-700"
-                href="/register"
-            >
-                Become a Donor <ArrowRight className="h-5 w-5" />
-            </a>
+                <a
+                    className="mt-5 flex items-center gap-2 rounded-md bg-red-600 px-6 py-3 text-lg font-medium text-white shadow-md transition hover:bg-red-700"
+                    href="/register"
+                >
+                    Become a Donor <ArrowRight className="h-5 w-5" />
+                </a>
+            </div>
 
             {/* Hero Section with Image */}
             <div className="relative mt-12 w-full flex justify-center">
@@ -76,7 +78,7 @@ export default function LandingPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-6 mt-8">
                     {[
                         { title: "Blood Donation Camps", desc: "Join our camps for easy and safe blood donation." },
-                        { title: "Emergency Blood Supply", desc: "We provide blood in **critical emergencies** and surgeries." },
+                        { title: "Emergency Blood Supply", desc: "We provide blood in critical emergencies and surgeries." },
                         { title: "Plasma & Platelet Donation", desc: "Donors can contribute plasma and platelets for specific treatments." },
                     ].map((service, index) => (
                         <div key={index} className="p-6 bg-gray-700 shadow-md rounded-lg">
