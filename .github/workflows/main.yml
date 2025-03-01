@@ -16,8 +16,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Auto-Merge Dependabot PR
-        run: |
-          gh pr merge --auto --squash "$PR_URL"
+        run: gh pr merge --auto --squash "$PR_URL"
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}  # Use Personal Access Token
           PR_URL: ${{ github.event.pull_request.html_url }}
