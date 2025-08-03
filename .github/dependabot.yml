@@ -7,19 +7,9 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
-    # Enable auto-merging for npm updates
-    automerged_updates:
-      - match:
-          # Automatically merge all minor and patch updates
-          update_types: ["minor", "patch"]
 
   # Enable version updates for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "daily"
-    # Enable auto-merging for GitHub Actions updates
-    automerged_updates:
-      - match:
-          # Automatically merge all updates for GitHub Actions
-          update_types: ["minor", "patch", "major"]
