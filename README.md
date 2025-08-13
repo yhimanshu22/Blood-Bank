@@ -1,4 +1,4 @@
-# Blood Bank
+# Blood Bank App
 
 A Blood Bank app where you can donate blood and buy blood for patients.  
 
