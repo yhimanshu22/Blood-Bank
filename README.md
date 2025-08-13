@@ -1,6 +1,6 @@
 # Blood Bank
 
-A Blood Bank app where you can donate blood and buy blood for patients.
+A Blood Bank app where you can donate blood and buy blood for patients.  
 
 ### Installation
 
